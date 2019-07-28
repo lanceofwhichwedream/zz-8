@@ -1,0 +1,49 @@
+{
+  "variables": {
+    "ansible_host": "zz8",
+    "ansible_connection": "docker"
+  },
+	"builders": [{
+		"type": "docker",
+		"image": "lanceofwhichwedream/home-network:stretch-runit",
+		"commit": "true",
+		"run_command": [
+			"-d",
+      "-i",
+			"--name",
+			"{{user `ansible_host`}}",
+			"{{.Image}}",
+			"/bin/bash"
+		]
+	}],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": [
+				"apt-get update",
+				"apt-get install python3.5 -yq"
+			]
+		},
+		{
+			"type": "ansible",
+			"user": "root",
+			"playbook_file": "ansible/zz8.yml",
+			"groups": "all",
+			"extra_arguments": [
+				"--become",
+				"--extra-vars",
+				"ansible_host={{user `ansible_host`}} ansible_connection={{user `ansible_connection`}}"
+			]
+		}
+	],
+	"post-processors": [
+		[
+			{
+				"type": "docker-tag",
+				"repository": "lanceofwhichwedream/home-network",
+				"tag": "zz8"
+			},
+			"docker-push"
+		]
+	]
+}
