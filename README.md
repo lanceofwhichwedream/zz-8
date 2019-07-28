@@ -1,6 +1,16 @@
 # ZZ-8
 zz-8 is a discord bot built in discord for the purposes of working more with python and discord
 
+# Development installation
+It is recommended that one use pipenv to install the required dependencies and pyenv to install
+the required python version however a requirements.txt has also been provided
+
+pyenv and pipenv method: `pyenv install 3.6.8`
+												 `pyenv local 3.6.8`
+												 `pipenv install --dev`
+
+requirements.txt method: `pip install -r requirements.txt`
+
 # Deployment
 This project is intended to be deployed into docker using a mixture of Jenkins packer and ansible.
 
