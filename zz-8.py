@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 The main code for ZZ-8
 
@@ -74,18 +75,26 @@ async def on_ready():
     """
     Gives us some status output for zz-8
     """
-    print("Logged on as", ZZ8.user.name)
+    print(f"Logged on as {ZZ8.user.name}, beep beep")
 
 
 @ZZ8.command()
-async def reddit(subreddit, posts):
+async def blarg(ctx):
+    """
+    Basic command just to get back into the swing of it
+    """
+    await ctx.send("blarblarg")
+
+
+@ZZ8.command()
+async def reddit(ctx, subreddit, posts):
     """
     Reddit command for zz-8 for a user specified subreddit and number of posts
     """
 
     for sub in reddit_posts(subreddit, int(posts)):
-        await ZZ8.say(sub.title)
-        await ZZ8.say(sub.url)
+        await ctx.send(sub.title)
+        await ctx.send(sub.url)
 
 
 @ZZ8.event
@@ -99,15 +108,15 @@ async def on_message(message):
         return
 
     if message.content == "Hello":
-        await ZZ8.send_message(message.channel, "World")
+        await message.channel.send("World")
 
     if TEST_RE.match(message.content):
-        await ZZ8.send_message(message.channel, YEET_URL)
+        await message.channel.send(YEET_URL)
 
     if message.content == "Tech News":
         for sub in reddit_posts("technology", 5):
-            await ZZ8.send_message(message.channel, sub.title)
-            await ZZ8.send_message(message.channel, sub.url)
+            await message.channel.send(sub.title)
+            await message.channel.send(sub.url)
 
     await ZZ8.process_commands(message)
 
