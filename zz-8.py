@@ -63,7 +63,7 @@ def reddit_posts(subreddit, posts):
     return REDDIT.subreddit(subreddit).new(limit=posts)
 
 
-TEST_RE = re.compile(r"(?i)^ye{2,}t")
+TEST_RE = re.compile(r"(?i)ye{2,}t")
 YEET_URL = "https://www.youtube.com/watch?v=2Bjy5YQ5xPc"
 DESCRIPTION = "ZZ-8 the lovable youngest bot"
 
@@ -110,7 +110,7 @@ async def on_message(message):
     if message.content == "Hello":
         await message.channel.send("World")
 
-    if TEST_RE.match(message.content):
+    if TEST_RE.search(message.content):
         await message.channel.send(YEET_URL)
 
     if message.content == "Tech News":
