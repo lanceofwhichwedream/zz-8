@@ -9,7 +9,7 @@ import configparser
 import os
 import re
 import sys
-
+from db_init import zz8_db
 import praw
 from discord.ext import commands
 
@@ -41,18 +41,35 @@ def readconfig():
 
     appconfig["client_token"] = config.get("prod", "client_token")
     appconfig["reddit_client_id"] = config.get("prod", "reddit_client_id")
-    appconfig["reddit_client_secret"] = config.get("prod",
-                                                   "reddit_client_secret")
+    appconfig["reddit_client_secret"] = config.get("prod", "reddit_client_sec")
+    appconfig["user"] = config.get("prod", "user")
+    appconfig["pass"] = config.get("prod", "pass")
+    appconfig["host"] = config.get("prod", "host")
+    appconfig["port"] = config.get("prod", "port")
 
     return appconfig
 
 
-CONFIG = readconfig()
-REDDIT = praw.Reddit(
-    client_id=CONFIG["reddit_client_id"],
-    client_secret=CONFIG["reddit_client_secret"],
+# Config variables
+config = readconfig()
+
+# Sets up the reddit instance
+# for querying subreddits
+reddit = praw.Reddit(
+    client_id=config["reddit_client_id"],
+    client_secret=config["reddit_client_secret"],
     user_agent="zz-8",
 )
+
+TEST_RE = re.compile(r"(?i)ye{2,}t")
+YEET_URL = "https://www.youtube.com/watch?v=2Bjy5YQ5xPc"
+DESCRIPTION = "ZZ-8 the lovable youngest bot"
+
+ZZ8 = commands.Bot(command_prefix="!", description=DESCRIPTION)
+
+zz8_db = zz8_db(config)
+zz8_db.connection()
+zz8_db.db_init()
 
 
 def reddit_posts(subreddit, posts):
@@ -60,14 +77,7 @@ def reddit_posts(subreddit, posts):
     Function to search subreddits for new posts
     """
 
-    return REDDIT.subreddit(subreddit).new(limit=posts)
-
-
-TEST_RE = re.compile(r"(?i)ye{2,}t")
-YEET_URL = "https://www.youtube.com/watch?v=2Bjy5YQ5xPc"
-DESCRIPTION = "ZZ-8 the lovable youngest bot"
-
-ZZ8 = commands.Bot(command_prefix="!", description=DESCRIPTION)
+    return reddit.subreddit(subreddit).new(limit=posts)
 
 
 @ZZ8.event
@@ -76,6 +86,18 @@ async def on_ready():
     Gives us some status output for zz-8
     """
     print(f"Logged on as {ZZ8.user.name}, beep beep")
+
+
+@ZZ8.command()
+async def add_interests(ctx, topic):
+    """
+    Command to add user interests
+    """
+    interests = []
+    interests.append(topic.lower())
+    zz8_db.store_user_interests(interests)
+
+    await ctx.send(f"Thank you for letting me know you like {topic}")
 
 
 @ZZ8.command()
@@ -121,4 +143,4 @@ async def on_message(message):
     await ZZ8.process_commands(message)
 
 
-ZZ8.run(CONFIG["client_token"])
+ZZ8.run(config["client_token"])
