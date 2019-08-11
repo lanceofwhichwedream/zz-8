@@ -9,6 +9,10 @@ ipython = "*"
 [packages]
 discord = "*"
 praw = "*"
+python-twitch-client = "*"
+psycopg2 = "*"
+sqlalchemy = "*"
+pymongo = "*"
 
 [requires]
 python_version = "3.6"
