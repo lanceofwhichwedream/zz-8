@@ -38,15 +38,13 @@ def readconfig():
         return False
 
     appconfig = {}
-
     appconfig["client_token"] = config.get("prod", "client_token")
     appconfig["reddit_client_id"] = config.get("prod", "reddit_client_id")
-    appconfig["reddit_client_secret"] = config.get("prod", "reddit_client_sec")
-    appconfig["user"] = config.get("prod", "user")
-    appconfig["pass"] = config.get("prod", "pass")
-    appconfig["host"] = config.get("prod", "host")
-    appconfig["port"] = config.get("prod", "port")
-
+    appconfig["reddit_client_secret"] = config.get("prod", "reddit_client_secret")
+    appconfig["db_user"] = config.get("prod", "db_user")
+    appconfig["db_pass"] = config.get("prod", "db_pass")
+    appconfig["db_host"] = config.get("prod", "db_host")
+    appconfig["db_port"] = config.get("prod", "db_port")
     return appconfig
 
 

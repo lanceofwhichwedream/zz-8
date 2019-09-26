@@ -39,10 +39,10 @@ class zz8_db(object):
             port (int): The port for proper db conns
             db   (str): The port for proper db conns
         """
-        self.user = config["user"]
-        self.password = config["pass"]
-        self.host = config["host"]
-        self.port = config["port"]
+        self.user = config["db_user"]
+        self.password = config["db_pass"]
+        self.host = config["db_host"]
+        self.port = config["db_port"]
         self.logger = logging.getLogger("zz-8")
 
     def connection(self):
@@ -52,10 +52,9 @@ class zz8_db(object):
         Returns True
         """
         connect_string = (
-            f"mongodb://{self.user}:{self.password}",
+            f"mongodb://{self.user}:{self.password}"
             f"@{self.host}:{self.port}/zz8",
         )
-
         self.client = MongoClient(connect_string)
         self.logger.INFO("Connected to mongo")
         return True
