@@ -13,6 +13,7 @@ python-twitch-client = "*"
 psycopg2 = "*"
 sqlalchemy = "*"
 pymongo = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.6"
