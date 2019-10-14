@@ -1,0 +1,147 @@
+2019-10-14 01:22:44,681     INFO Connected to mongo
+2019-10-14 01:22:44,710     INFO Connected to zz8 db
+2019-10-14 01:28:13,348     INFO Connected to mongo
+2019-10-14 01:28:13,349     INFO Connected to zz8 db
+2019-10-14 01:30:06,388     INFO Connected to mongo
+2019-10-14 01:30:06,388     INFO Connected to zz8 db
+2019-10-14 01:30:18,993     INFO technology
+2019-10-14 01:30:36,044     INFO Connected to mongo
+2019-10-14 01:30:36,044     INFO Connected to zz8 db
+2019-10-14 01:30:45,978     INFO ('technology', 'music')
+2019-10-14 01:39:54,377     INFO Connected to mongo
+2019-10-14 01:39:54,377     INFO Connected to zz8 db
+2019-10-14 01:40:10,370     INFO ('technology', 'msic')
+2019-10-14 01:47:55,435     INFO Connected to mongo
+2019-10-14 01:47:55,436     INFO Connected to zz8 db
+2019-10-14 01:48:20,862     INFO ('technology', 'music')
+2019-10-14 01:49:00,837     INFO Connected to mongo
+2019-10-14 01:49:00,838     INFO Connected to zz8 db
+2019-10-14 01:49:03,840     INFO ('technology', 'music')
+2019-10-14 01:49:03,841     INFO ['__abstractmethods__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '__weakref__', '_abc_cache', '_abc_negative_cache', '_abc_negative_cache_version', '_abc_registry', '_get_channel', '_state', 'args', 'author', 'bot', 'channel', 'cog', 'command', 'command_failed', 'fetch_message', 'guild', 'history', 'invoke', 'invoked_subcommand', 'invoked_with', 'kwargs', 'me', 'message', 'pins', 'prefix', 'reinvoke', 'send', 'send_help', 'subcommand_passed', 'trigger_typing', 'typing', 'valid', 'view', 'voice_client']
+2019-10-14 01:50:00,773     INFO Connected to mongo
+2019-10-14 01:50:00,773     INFO Connected to zz8 db
+2019-10-14 01:50:05,591     INFO ('technology', 'music')
+2019-10-14 01:50:05,591     INFO HardstyleSkeletal#7399
+2019-10-14 01:50:46,843     INFO ('technology', 'music')
+2019-10-14 01:50:46,843     INFO HardstyleSkeletal#7399
+2019-10-14 01:51:01,096     INFO Connected to mongo
+2019-10-14 01:51:01,096     INFO Connected to zz8 db
+2019-10-14 01:51:05,115     INFO ('technology', 'music')
+2019-10-14 01:51:05,115     INFO ['_CACHED_SLOTS', '_HANDLERS', '__class__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '_add_reaction', '_cs_channel_mentions', '_cs_clean_content', '_cs_guild', '_cs_raw_channel_mentions', '_cs_raw_mentions', '_cs_raw_role_mentions', '_cs_system_content', '_edited_timestamp', '_emoji_reaction', '_handle_activity', '_handle_application', '_handle_attachments', '_handle_author', '_handle_call', '_handle_content', '_handle_embeds', '_handle_member', '_handle_mention_everyone', '_handle_mention_roles', '_handle_mentions', '_handle_nonce', '_handle_pinned', '_handle_tts', '_handle_type', '_remove_reaction', '_state', '_try_patch', '_update', 'ack', 'activity', 'add_reaction', 'application', 'attachments', 'author', 'call', 'channel', 'channel_mentions', 'clean_content', 'clear_reactions', 'content', 'created_at', 'delete', 'edit', 'edited_at', 'embeds', 'guild', 'id', 'jump_url', 'mention_everyone', 'mentions', 'nonce', 'pin', 'pinned', 'raw_channel_mentions', 'raw_mentions', 'raw_role_mentions', 'reactions', 'remove_reaction', 'role_mentions', 'system_content', 'tts', 'type', 'unpin', 'webhook_id']
+2019-10-14 02:47:29,954     INFO Connected to mongo
+2019-10-14 02:47:29,955     INFO Connected to zz8 db
+2019-10-14 02:48:11,218     INFO Connected to mongo
+2019-10-14 02:48:11,219     INFO Connected to zz8 db
+2019-10-14 02:48:52,556     INFO Connected to mongo
+2019-10-14 02:48:52,557     INFO Connected to zz8 db
+2019-10-14 02:49:09,064     INFO Connected to mongo
+2019-10-14 02:49:09,065     INFO Connected to zz8 db
+2019-10-14 02:52:02,719     INFO Connected to mongo
+2019-10-14 02:52:02,719     INFO Connected to zz8 db
+2019-10-14 02:56:44,741     INFO Connected to mongo
+2019-10-14 02:56:44,742     INFO Connected to zz8 db
+2019-10-14 03:01:45,001     INFO Connected to mongo
+2019-10-14 03:01:45,002     INFO Connected to zz8 db
+2019-10-14 03:04:24,588     INFO Connected to mongo
+2019-10-14 03:04:24,588     INFO Connected to zz8 db
+2019-10-14 03:05:06,303     INFO Connected to mongo
+2019-10-14 03:05:06,303     INFO Connected to zz8 db
+2019-10-14 03:05:31,116     INFO ('techology', 'music')
+2019-10-14 03:05:31,116     INFO 216142038574301195
+2019-10-14 03:09:21,526     INFO Connected to mongo
+2019-10-14 03:09:21,527     INFO Connected to zz8 db
+2019-10-14 03:10:00,870     INFO Connected to mongo
+2019-10-14 03:10:00,870     INFO Connected to zz8 db
+2019-10-14 03:15:31,165     INFO Connected to mongo
+2019-10-14 03:15:31,166     INFO Connected to zz8 db
+2019-10-14 03:17:21,082     INFO Connected to mongo
+2019-10-14 03:17:21,083     INFO Connected to zz8 db
+2019-10-14 03:18:50,237     INFO Connected to mongo
+2019-10-14 03:18:50,238     INFO Connected to zz8 db
+2019-10-14 03:24:28,966     INFO Connected to mongo
+2019-10-14 03:24:28,967     INFO Connected to zz8 db
+2019-10-14 03:25:42,366     INFO Connected to mongo
+2019-10-14 03:25:42,367     INFO Connected to zz8 db
+2019-10-14 03:27:10,105     INFO Connected to mongo
+2019-10-14 03:27:10,106     INFO Connected to zz8 db
+2019-10-14 03:28:11,262     INFO Connected to mongo
+2019-10-14 03:28:11,262     INFO Connected to zz8 db
+2019-10-14 03:40:03,399     INFO Connected to mongo
+2019-10-14 03:40:03,401     INFO Connected to zz8 db
+2019-10-14 03:40:12,770     INFO Stored interests for user 216142038574301195
+2019-10-14 03:50:57,924     INFO Connected to mongo
+2019-10-14 03:50:57,924     INFO Connected to zz8 db
+2019-10-14 03:58:17,371     INFO Connected to mongo
+2019-10-14 03:58:17,371     INFO Connected to zz8 db
+2019-10-14 03:58:26,459     INFO Returning interests list
+2019-10-14 03:58:26,459     INFO retrieved interests for user 216142038574301195
+2019-10-14 04:05:38,810     INFO Connected to mongo
+2019-10-14 04:05:38,811     INFO Connected to zz8 db
+2019-10-14 04:06:01,330     INFO Returning interests list
+2019-10-14 04:10:24,585     INFO Connected to mongo
+2019-10-14 04:10:24,585     INFO Connected to zz8 db
+2019-10-14 04:10:38,392     INFO Returning interests list
+2019-10-14 04:13:04,541     INFO Connected to mongo
+2019-10-14 04:13:04,542     INFO Connected to zz8 db
+2019-10-14 04:13:21,017     INFO Returning interests list
+2019-10-14 04:16:40,498     INFO Connected to mongo
+2019-10-14 04:16:40,498     INFO Connected to zz8 db
+2019-10-14 04:16:45,817     INFO Returning interests list
+2019-10-14 04:17:32,774     INFO Connected to mongo
+2019-10-14 04:17:32,774     INFO Connected to zz8 db
+2019-10-14 04:17:37,187     INFO Returning interests list
+2019-10-14 04:18:33,742     INFO Connected to mongo
+2019-10-14 04:18:33,743     INFO Connected to zz8 db
+2019-10-14 04:18:38,309     INFO Returning interests list
+2019-10-14 04:20:00,594     INFO Connected to mongo
+2019-10-14 04:20:00,595     INFO Connected to zz8 db
+2019-10-14 04:20:05,575     INFO Returning interests list
+2019-10-14 04:22:44,056     INFO Returning interests list
+2019-10-14 04:37:46,157     INFO Connected to mongo
+2019-10-14 04:37:46,158     INFO Connected to zz8 db
+2019-10-14 04:38:00,449     INFO Returning interests list
+2019-10-14 04:39:32,241     INFO Connected to mongo
+2019-10-14 04:39:32,241     INFO Connected to zz8 db
+2019-10-14 04:39:37,027     INFO Returning interests list
+2019-10-14 04:43:36,636     INFO Connected to mongo
+2019-10-14 04:43:36,637     INFO Connected to zz8 db
+2019-10-14 04:43:40,973     INFO Returning interests list
+2019-10-14 04:43:54,693     INFO Connected to mongo
+2019-10-14 04:43:54,693     INFO Connected to zz8 db
+2019-10-14 04:43:57,820     INFO Returning interests list
+2019-10-14 04:44:18,614     INFO Connected to mongo
+2019-10-14 04:44:18,614     INFO Connected to zz8 db
+2019-10-14 04:44:21,367     INFO Returning interests list
+2019-10-14 04:45:25,409     INFO Connected to mongo
+2019-10-14 04:45:25,409     INFO Connected to zz8 db
+2019-10-14 04:45:33,827     INFO Returning interests list
+2019-10-14 04:46:12,063     INFO Connected to mongo
+2019-10-14 04:46:12,064     INFO Connected to zz8 db
+2019-10-14 04:46:16,282     INFO Returning interests list
+2019-10-14 04:50:33,125     INFO Connected to mongo
+2019-10-14 04:50:33,125     INFO Connected to zz8 db
+2019-10-14 04:50:39,304     INFO Returning interests list
+2019-10-14 04:51:43,164     INFO Connected to mongo
+2019-10-14 04:51:43,165     INFO Connected to zz8 db
+2019-10-14 04:51:47,921     INFO Returning interests list
+2019-10-14 04:52:44,506     INFO Connected to mongo
+2019-10-14 04:52:44,506     INFO Connected to zz8 db
+2019-10-14 04:53:24,121     INFO Returning interests list
+2019-10-14 04:57:55,659     INFO Connected to mongo
+2019-10-14 04:57:55,660     INFO Connected to zz8 db
+2019-10-14 04:57:59,408     INFO Returning interests list
+2019-10-14 04:58:46,814     INFO Returning interests list
+2019-10-14 05:00:11,854     INFO Connected to mongo
+2019-10-14 05:00:11,854     INFO Connected to zz8 db
+2019-10-14 05:00:14,580     INFO Returning interests list
+2019-10-14 05:10:20,442     INFO Stored interests for user 216142038574301195
+2019-10-14 05:10:39,840     INFO Returning interests list
+2019-10-14 05:11:34,251     INFO Connected to mongo
+2019-10-14 05:11:34,251     INFO Connected to zz8 db
+2019-10-14 05:11:40,404     INFO Returning interests list
+2019-10-14 05:24:18,339     INFO Connected to mongo
+2019-10-14 05:24:18,340     INFO Connected to zz8 db
+2019-10-14 05:24:34,721     INFO Returning interests list
+2019-10-14 05:32:51,035     INFO Connected to mongo
+2019-10-14 05:32:51,035     INFO Connected to zz8 db
+2019-10-14 05:32:58,911     INFO Returning interests list
