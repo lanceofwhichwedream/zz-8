@@ -13,6 +13,7 @@ import sys
 from db_init import zz8_db
 import praw
 from discord.ext import commands
+from discord import client
 
 logger = logging.getLogger("zz-8")
 logger.setLevel(logging.INFO)
@@ -105,6 +106,42 @@ class Interests(commands.Cog):
         logger.info(f"retrieved interests for user {uuid}")
         await ctx.send(f"According to what I've been",
                        f"told, you like {interests}",)
+
+    @commands.command()
+    async def update_interests(self, ctx):
+        """
+        Command to add user interests
+        """
+        interests = []
+        uuid = ctx.message.author.id
+        author = ctx.message.author
+        response = zz8_db.get_user_interests(uuid)
+        channel = ctx.channel
+
+        def check(m):
+            return m.author == author and m.channel == channel
+
+#        def int_check(m):
+#            return m.author == author and m.channel == channel
+        
+        for var in response:
+            interests.append(var.lower())
+
+        logger.info(f"Listing current interests for user {uuid}")
+        await ctx.send(f"Which topic would you like to update {interests}?")
+        await ctx.send(f"Please state a number 1 through {len(interests)}")
+
+        msg = await bot.wait_for('message', check=check, timeout=60)
+        
+        await ctx.send(f"What would you like to change it to?")
+
+        new_int = await bot.wait_for('message', check=check, timeout=60)
+
+        interests[int(msg.content) - 1] = new_int.content
+
+        zz8_db.update_user_interests(uuid, interests)
+        logger.info(f'Updated interests for user {uuid}')
+        await ctx.send(f'I have updated your interests for you')
 
     @commands.command()
     async def add_interests(self, ctx, *topic):
