@@ -129,6 +129,7 @@ class Interests(commands.Cog):
         Posts top 5 posts from a users list interests
         """
         uuid = ctx.message.author.id
+        user = ctx.message.author
         message = []
         response = zz8_db.get_user_interests(uuid)
 
@@ -136,7 +137,7 @@ class Interests(commands.Cog):
             message.append(sub.title)
             message.append(f'<https://reddit.com{sub.permalink}>')
 
-        await ctx.send('\n'.join(message))
+        await user.send('\n'.join(message))
 
     @commands.command()
     async def blarg(ctx):
