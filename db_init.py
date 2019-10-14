@@ -99,3 +99,26 @@ class zz8_db(object):
         self.db.users.insert_one(doc).inserted_id
 
         return True
+
+    def update_user_interests(self, user_id, interests):
+        """
+        Updates a dictionary of the uuid and interests
+
+        Attributes:
+            user_id (int)
+            interests (list [])
+
+        Output:
+            True
+        """
+
+        # Creates a representation
+        # of the mongo db
+        self.db.users
+
+        query = {"uuid": user_id}
+        newvalues = {"$set": {"uuid": user_id, "interests": interests}}
+
+        self.db.users.update_one(query, newvalues)
+
+        return True
