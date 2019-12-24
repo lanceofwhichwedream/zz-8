@@ -1,0 +1,8 @@
+---
+- name: Build zz-8
+  hosts: localhost
+  connection: local
+  tasks:
+      - name: Install the Requirements
+        pip:
+            requirements: /opt/zz8/requirements.txt

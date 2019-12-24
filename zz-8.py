@@ -5,14 +5,17 @@ The main code for ZZ-8
 ZZ-8 is designed to perform some basic bot functions
 Includes some intregation with reddit
 """
+import asyncio
 import configparser
-import os
 import logging
+import os
 import re
 import sys
-from db_init import zz8_db
+import discord
 import praw
+import youtube_dl
 from discord.ext import commands
+from db_init import zz8_db
 
 logger = logging.getLogger("zz-8")
 logger.setLevel(logging.INFO)
@@ -28,6 +31,49 @@ f_handler.setFormatter(formatter)
 
 logger.addHandler(c_handler)
 logger.addHandler(f_handler)
+
+
+ytdl_format_options = {
+    "format": "bestaudio/best",
+    "outtmpl": "%(extractor)s-%(id)s-%(title)s.%(ext)s",
+    "restrictfilenames": True,
+    "noplaylist": True,
+    "nocheckcertificate": True,
+    "ignoreerrors": False,
+    "logtostderr": False,
+    "quiet": True,
+    "no_warnings": True,
+    "default_search": "auto",
+    "source_address": "0.0.0.0",  # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {"options": "-vn"}
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+
+        self.data = data
+
+        self.title = data.get("title")
+        self.url = data.get("url")
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(
+            None, lambda: ytdl.extract_info(url, download=not stream)
+        )
+
+        if "entries" in data:
+            # take first item from a playlist
+            data = data["entries"][0]
+
+        filename = data["url"] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 
 
 def getconfigpath():
@@ -85,6 +131,84 @@ zz8_db.connection()
 zz8_db.db_init()
 
 
+class Music(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def join(self, ctx, *, channel: discord.VoiceChannel):
+        """Joins a voice channel"""
+
+        if ctx.voice_client is not None:
+            return await ctx.voice_client.move_to(channel)
+
+        await channel.connect()
+
+    @commands.command()
+    async def play(self, ctx, *, query):
+        """Plays a file from the local filesystem"""
+
+        source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(query))
+        ctx.voice_client.play(
+            source, after=lambda e: print("Player error: %s" % e) if e else None
+        )
+
+        await ctx.send("Now playing: {}".format(query))
+
+    @commands.command()
+    async def yt(self, ctx, *, url):
+        """Plays from a url (almost anything youtube_dl supports)"""
+
+        async with ctx.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop)
+            ctx.voice_client.play(
+                player, after=lambda e: print("Player error: %s" % e) if e else None
+            )
+
+        await ctx.send("Now playing: {}".format(player.title))
+
+    @commands.command()
+    async def stream(self, ctx, *, url):
+        """Streams from a url (same as yt, but doesn't predownload)"""
+
+        async with ctx.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+            ctx.voice_client.play(
+                player, after=lambda e: print("Player error: %s" % e) if e else None
+            )
+
+        await ctx.send("Now playing: {}".format(player.title))
+
+    @commands.command()
+    async def volume(self, ctx, volume: int):
+        """Changes the player's volume"""
+
+        if ctx.voice_client is None:
+            return await ctx.send("Not connected to a voice channel.")
+
+        ctx.voice_client.source.volume = volume / 100
+        await ctx.send("Changed volume to {}%".format(volume))
+
+    @commands.command()
+    async def stop(self, ctx):
+        """Stops and disconnects the bot from voice"""
+
+        await ctx.voice_client.disconnect()
+
+    @play.before_invoke
+    @yt.before_invoke
+    @stream.before_invoke
+    async def ensure_voice(self, ctx):
+        if ctx.voice_client is None:
+            if ctx.author.voice:
+                await ctx.author.voice.channel.connect()
+            else:
+                await ctx.send("You are not connected to a voice channel.")
+                raise commands.CommandError("Author not connected to a voice channel.")
+        elif ctx.voice_client.is_playing():
+            ctx.voice_client.stop()
+
+
 class Interests(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -103,8 +227,9 @@ class Interests(commands.Cog):
             interests.append(var.lower())
 
         logger.info(f"retrieved interests for user {uuid}")
-        await ctx.send(f"According to what I've been",
-                       f"told, you like {interests}",)
+        await ctx.send(
+            f"According to what I've been", f"told, you like {interests}",
+        )
 
     @commands.command()
     async def update_interests(self, ctx):
@@ -120,8 +245,8 @@ class Interests(commands.Cog):
         def check(m):
             return m.author == author and m.channel == channel
 
-#        def int_check(m):
-#            return m.author == author and m.channel == channel
+        #        def int_check(m):
+        #            return m.author == author and m.channel == channel
 
         for var in response:
             interests.append(var.lower())
@@ -130,16 +255,16 @@ class Interests(commands.Cog):
         await ctx.send(f"Which topic would you like to update {interests}?")
         await ctx.send(f"Please state a number 1 through {len(interests)}")
 
-        msg = await bot.wait_for('message', check=check, timeout=60)
+        msg = await bot.wait_for("message", check=check, timeout=60)
         await ctx.send(f"What would you like to change it to?")
 
-        new_int = await bot.wait_for('message', check=check, timeout=60)
+        new_int = await bot.wait_for("message", check=check, timeout=60)
 
         interests[int(msg.content) - 1] = new_int.content
 
         zz8_db.update_user_interests(uuid, interests)
-        logger.info(f'Updated interests for user {uuid}')
-        await ctx.send(f'I have updated your interests for you')
+        logger.info(f"Updated interests for user {uuid}")
+        await ctx.send(f"I have updated your interests for you")
 
     @commands.command()
     async def add_interests(self, ctx, *topic):
@@ -170,19 +295,19 @@ class Interests(commands.Cog):
 
         for sub in reddit_posts(response, 5):
             message.append(sub.title)
-            message.append(f'<https://reddit.com{sub.permalink}>')
+            message.append(f"<https://reddit.com{sub.permalink}>")
 
-        await user.send('\n'.join(message))
+        await user.send("\n".join(message))
 
     @commands.command()
-    async def blarg(ctx):
+    async def blarg(self, ctx):
         """
         Basic command just to get back into the swing of it
         """
         await ctx.send("blarblarg")
 
     @commands.command()
-    async def reddit(ctx, subreddit, posts):
+    async def reddit(self, ctx, subreddit, posts):
         """
         Reddit command for zz-8 for a user
         specified subreddit and number of posts
@@ -239,5 +364,6 @@ def reddit_posts(subreddit, num_posts):
     return posts
 
 
+bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot))
 bot.run(config["client_token"])
