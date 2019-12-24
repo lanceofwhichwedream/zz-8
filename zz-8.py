@@ -15,6 +15,7 @@ import discord
 import praw
 import youtube_dl
 from discord.ext import commands
+
 from db_init import zz8_db
 
 logger = logging.getLogger("zz-8")
@@ -138,7 +139,9 @@ class Music(commands.Cog):
     @commands.command()
     async def join(self, ctx):
         """Joins a voice channel"""
+        discord.opus.load_opus()
         channel = ctx.message.author.voice.channel
+
         if ctx.voice_client is not None:
             return await ctx.voice_client.move_to(channel)
 
