@@ -8,6 +8,7 @@ services:
         command: python zz-8.py
         restart: always
         tty: true
+        dns:
         networks:
             zz-8-network:
                 ipv4_address: ${IPV4_NETWORK:172.23.1}.254
@@ -31,7 +32,7 @@ services:
                 - mongo
 
 networks:
-  mailcow-network:
+  zz-8-network:
     driver: bridge
     driver_opts:
       com.docker.network.bridge.name: br-zz8
