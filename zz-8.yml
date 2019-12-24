@@ -1,6 +1,6 @@
 ---
 - name: Build zz-8
-  hosts: 192.168.1.12
+  hosts: orion.warbase.xyz
   tasks:
     - name: Build zz-8 docker image
       shell: docker build -t zz-8 .
