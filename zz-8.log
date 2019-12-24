@@ -196,3 +196,7 @@
 2019-10-14 14:05:15,160     INFO Returning interests list
 2019-10-14 14:05:15,161     INFO Listing current interests for user 216142038574301195
 2019-10-14 14:05:18,414     INFO Updated interests for user 216142038574301195
+2019-12-22 00:46:21,272     INFO Connected to mongo
+2019-12-22 00:46:21,301     INFO Connected to zz8 db
+2019-12-22 22:38:32,541     INFO Connected to mongo
+2019-12-22 22:38:32,541     INFO Connected to zz8 db
