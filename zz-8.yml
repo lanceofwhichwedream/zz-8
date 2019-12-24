@@ -1,25 +1,25 @@
 ---
 - name: Build zz-8
-  hosts: orion.warbase.xyz
+  hosts: all
   tasks:
     - name: Build zz-8 docker image
       shell: docker build -t zz-8 .
       args:
-          interpreter: /bin/bash
+          executable: /bin/bash
           chdir: /home/lance/Src/zz-8
       delegate_to: localhost
 
     - name: Tag the docker image
       shell: docker tag zz-8 lanceofwhichwedream/home-network:zz-8
       args:
-        interpreter: /bin/bash
+        executable: /bin/bash
         chdir: /home/lance/Src/zz-8
       delegate_to: localhost
 
     - name: Tag the docker image
       shell: docker push lanceofwhichwedream/home-network:zz-8
       args:
-        interpreter: /bin/bash
+        executable: /bin/bash
         chdir: /home/lance/Src/zz-8
       delegate_to: localhost
 
@@ -31,5 +31,5 @@
     - name: Run da bot
       shell: docker-compose up -d
       args:
-        interpreter: /bin/bash
+        executable: /bin/bash
         chdir: /home/lance/zz-8
