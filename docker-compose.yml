@@ -7,8 +7,9 @@ services:
           - ~/zz8-config:/usr/src/app/config
         command: python zz-8.py
         restart: always
-        tty: true
         dns:
+          - ${IPV4_NETWORK:-172.23.1}.254
+        tty: true
         networks:
             zz-8-network:
                 ipv4_address: ${IPV4_NETWORK:-172.23.1}.254
