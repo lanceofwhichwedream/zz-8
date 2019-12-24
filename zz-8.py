@@ -139,7 +139,7 @@ class Music(commands.Cog):
     @commands.command()
     async def join(self, ctx):
         """Joins a voice channel"""
-        discord.opus.load_opus()
+        discord.opus.load_opus("libopus.so.0")
         channel = ctx.message.author.voice.channel
 
         if ctx.voice_client is not None:
