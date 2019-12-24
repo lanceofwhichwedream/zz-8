@@ -211,6 +211,11 @@ class Music(commands.Cog):
 
 class Interests(commands.Cog):
     def __init__(self, bot):
+        """
+        Interests
+        List of commands that zz-8 has in order to give users
+        a personalized experience from reddit
+        """
         self.bot = bot
 
     @commands.command()
@@ -227,9 +232,7 @@ class Interests(commands.Cog):
             interests.append(var.lower())
 
         logger.info(f"retrieved interests for user {uuid}")
-        await ctx.send(
-            f"According to what I've been", f"told, you like {interests}",
-        )
+        await ctx.send(f"According to what I've been told, you like {interests}",)
 
     @commands.command()
     async def update_interests(self, ctx):

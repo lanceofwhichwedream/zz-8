@@ -1,8 +1,35 @@
 ---
 - name: Build zz-8
-  hosts: localhost
-  connection: local
+  hosts: 192.168.1.12
   tasks:
-      - name: Install the Requirements
-        pip:
-            requirements: /opt/zz8/requirements.txt
+    - name: Build zz-8 docker image
+      shell: docker build -t zz-8 .
+      args:
+          interpreter: /bin/bash
+          chdir: /home/lance/Src/zz-8
+      delegate_to: localhost
+
+    - name: Tag the docker image
+      shell: docker tag zz-8 lanceofwhichwedream/home-network:zz-8
+      args:
+        interpreter: /bin/bash
+        chdir: /home/lance/Src/zz-8
+      delegate_to: localhost
+
+    - name: Tag the docker image
+      shell: docker push lanceofwhichwedream/home-network:zz-8
+      args:
+        interpreter: /bin/bash
+        chdir: /home/lance/Src/zz-8
+      delegate_to: localhost
+
+    - name: git pull the repo
+      git:
+        repo: git@github.com:lanceofwhichwedream/zz-8.git
+        dest: /home/lance/zz-8
+
+    - name: Run da bot
+      shell: docker-compose up -d
+      args:
+        interpreter: /bin/bash
+        chdir: /home/lance/zz-8
