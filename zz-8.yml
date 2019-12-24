@@ -27,6 +27,7 @@
       git:
         repo: git@github.com:lanceofwhichwedream/zz-8.git
         dest: /home/lance/zz-8
+        update: yes
 
     - name: Run da bot
       shell: docker-compose up -d
