@@ -1,49 +1,46 @@
 {
-  "variables": {
-    "ansible_host": "zz8",
-    "ansible_connection": "docker"
-  },
-	"builders": [{
-		"type": "docker",
-		"image": "lanceofwhichwedream/home-network:stretch-runit",
-		"commit": "true",
-		"run_command": [
-			"-d",
-      "-i",
-			"--name",
-			"{{user `ansible_host`}}",
-			"{{.Image}}",
-			"/bin/bash"
-		]
-	}],
-	"provisioners": [
-		{
-			"type": "shell",
-			"inline": [
-				"apt-get update",
-				"apt-get install python3.5 -yq"
-			]
-		},
-		{
-			"type": "ansible",
-			"user": "root",
-			"playbook_file": "ansible/zz8.yml",
-			"groups": "all",
-			"extra_arguments": [
-				"--become",
-				"--extra-vars",
-				"ansible_host={{user `ansible_host`}} ansible_connection={{user `ansible_connection`}}"
-			]
-		}
-	],
-	"post-processors": [
-		[
-			{
-				"type": "docker-tag",
-				"repository": "lanceofwhichwedream/home-network",
-				"tag": "zz8"
-			},
-			"docker-push"
-		]
-	]
+    "variables": {
+        "ansible_host": "zz8",
+        "ansible_connection": "docker"
+    },
+    "builders": [
+        {
+            "type": "docker",
+            "image": "debian:latest",
+            "commit": true
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline": [
+                "pip install ansible",
+		"pip install -U 'discord.py[voice]'"
+            ]
+        },
+        {
+            "type": "file",
+            "source": "{{template_dir}}",
+            "destination": "/opt/zz8"
+        },
+        {
+            "type": "ansible-local",
+            "playbook_file": "zz-8.yml",
+            "extra_arguments": [
+                "--become",
+                "--extra-vars",
+                "ansible_host={{user `ansible_host`}}"
+            ]
+        }
+    ],
+    "post-processors": [
+        [
+            {
+                "type": "docker-tag",
+                "repository": "lanceofwhichwedream/home-network",
+                "tag": "zz8"
+            },
+            "docker-push"
+        ]
+    ]
 }
