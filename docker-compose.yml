@@ -1,0 +1,45 @@
+version: '2.1'
+services:
+
+    zz-8:
+        image: lanceofwhichwedream/home-network:zz-8
+        volumes:
+          ~/zz8-config:/usr/src/app/config
+        command: python zz-8.py
+        restart: always
+        tty: true
+        networks:
+            zz-8-network:
+                ipv4_address: ${IPV4_NETWORK:172.23.1}.254
+                aliases: 
+                - zz-8
+    
+    mongo:
+        image: mongo
+        volumes:
+          - ~/data:/data/db
+        command: mongod --auth
+        restart: always
+        dns:
+          - ${IPV4_NETWORK:172.23.1}.254
+        ports:
+          - "${MONGO_PORT:-27017}:27017"
+        networks:
+            zz-8-network:
+                ipv4_address: ${IPV4_NETWORK:172.23.1}.253
+                aliases: 
+                - mongo
+
+networks:
+  mailcow-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-zz8
+    ipam:
+      driver: default
+      config:
+        - subnet: ${IPV4_NETWORK:-172.23.1}.0/24
+
+volumes:
+    zz-8-vol:
+    mongo-db-vol:
