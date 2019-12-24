@@ -232,7 +232,7 @@ class Interests(commands.Cog):
             interests.append(var.lower())
 
         logger.info(f"retrieved interests for user {uuid}")
-        await ctx.send(f"According to what I've been told, you like {interests}",)
+        await ctx.send(f"According to what I've been told, you like {interests}")
 
     @commands.command()
     async def update_interests(self, ctx):
