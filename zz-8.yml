@@ -16,7 +16,7 @@
         chdir: /home/lance/Src/zz-8
       delegate_to: localhost
 
-    - name: Tag the docker image
+    - name: Push the docker image
       shell: docker push lanceofwhichwedream/home-network:zz-8
       args:
         executable: /bin/bash
