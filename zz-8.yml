@@ -29,6 +29,19 @@
         dest: /home/lance/zz-8
         update: yes
 
+    - name: Stop the old docker images
+      shell: docker-compose kill
+      args:
+        executable: /bin/bash
+        chdir: /home/lance/zz-8
+      ignore_errors: yes
+
+    - name: Pull the new docker images
+      shell: docker-compose pull
+      args:
+        executable: /bin/bash
+        chdir: /home/lance/zz-8
+
     - name: Run da bot
       shell: docker-compose up -d
       args:
