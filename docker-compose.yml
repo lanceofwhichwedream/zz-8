@@ -4,7 +4,7 @@ services:
     zz-8:
         image: lanceofwhichwedream/home-network:zz-8
         volumes:
-          ~/zz8-config:/usr/src/app/config
+          - ~/zz8-config:/usr/src/app/config
         command: python zz-8.py
         restart: always
         tty: true
