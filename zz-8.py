@@ -212,6 +212,33 @@ class Music(commands.Cog):
             ctx.voice_client.stop()
 
 
+class Reminders(commands.Cog):
+    def __init__(self, bot):
+        """
+        Reminders [summary]
+        
+        :param commands: [description]
+        :type commands: [type]
+        :param bot: [description]
+        :type bot: [type]
+        """
+        self.bot = bot
+
+    @commands.command()
+    async def remind_me(self, ctx, num):
+        """
+        remind_me [summary]
+        
+        :param ctx: context in which the command was invokved
+        :type ctx: obj
+        :param num: variable provided by user
+        :type num: int
+        """
+        uuid = ctx.message.author.id
+        await asyncio.sleep(num)
+        await ctx.send(f"this is a test @{uuid}")
+
+
 class Interests(commands.Cog):
     def __init__(self, bot):
         """
