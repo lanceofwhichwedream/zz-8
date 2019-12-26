@@ -235,7 +235,8 @@ class Reminders(commands.Cog):
         :type num: int
         """
         uuid = ctx.message.author.id
-        await asyncio.sleep(num)
+        await ctx.send(f"I have recieved {num}")
+        await asyncio.sleep(int(num))
         await ctx.send(f"this is a test @{uuid}")
 
 
@@ -333,11 +334,21 @@ class Interests(commands.Cog):
         await user.send("\n".join(message))
 
     @commands.command()
-    async def blarg(self, ctx):
+    async def raspberries(self, ctx):
         """
-        Basic command just to get back into the swing of it
+        This server needs more boondocks
         """
-        await ctx.send("blarblarg")
+        await ctx.send("The radar sir")
+        await asyncio.sleep(1)
+        await ctx.send("it appears to be...")
+        await asyncio.sleep(5)
+        await ctx.send("jammed!")
+        await asyncio.sleep(3)
+        await ctx.send("There's only one man...")
+        await asyncio.sleep(3)
+        await ctx.send("who would _dare_ give me the raspberry!")
+        await asyncio.sleep(3)
+        await ctx.send("Lone Starr!")
 
     @commands.command()
     async def reddit(self, ctx, subreddit, posts):
