@@ -237,7 +237,7 @@ class Reminders(commands.Cog):
         uuid = ctx.message.author.id
         await ctx.send(f"I have recieved {num}")
         await asyncio.sleep(int(num))
-        await ctx.send(f"this is a test @{uuid}")
+        await ctx.send(f"this is a test <@{uuid}>")
 
 
 class Interests(commands.Cog):
