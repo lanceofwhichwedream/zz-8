@@ -216,7 +216,7 @@ class Reminders(commands.Cog):
     def __init__(self, bot):
         """
         Reminders [summary]
-        
+
         :param commands: [description]
         :type commands: [type]
         :param bot: [description]
@@ -228,7 +228,7 @@ class Reminders(commands.Cog):
     async def remind_me(self, ctx, num):
         """
         remind_me [summary]
-        
+
         :param ctx: context in which the command was invokved
         :type ctx: obj
         :param num: variable provided by user
@@ -399,4 +399,5 @@ def reddit_posts(subreddit, num_posts):
 
 bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot))
+bot.add_cog(Reminders(bot))
 bot.run(config["client_token"])
