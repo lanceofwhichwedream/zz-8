@@ -15,7 +15,7 @@ import discord
 import praw
 import youtube_dl
 from discord.ext import commands
-
+from discord.utils import get
 from db_init import zz8_db
 
 logger = logging.getLogger("zz-8")
@@ -392,6 +392,22 @@ async def on_message(message):
             await message.channel.send(sub.url)
 
     await bot.process_commands(message)
+
+
+@bot.event
+async def on_message_delete(message):
+    uuid = message.author.id
+    await message.channel.send(f"I saw that, <@{uuid}>")
+
+
+@bot.event
+async def on_message_edit(old_msg, new_msg):
+    """
+    Performs a list of actions on reciving message
+     edit event
+    """
+    emoji = get(bot.emojis, name="rah")
+    await new_msg.add_reaction(emoji)
 
 
 def reddit_posts(subreddit, num_posts):
