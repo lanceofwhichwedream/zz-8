@@ -41,13 +41,16 @@ class Testdb:
         db.db = mongodb
         player1 = db.get_user_interests(124434)
         player2 = db.get_user_interests(12345)
+        player3 = db.get_user_interests(98765)
         # Assert the types first
         assert isinstance(player1, list)
         assert isinstance(player2, list)
+        assert isinstance(player3, list)
 
         # Assert the content next
         assert player1 == ["tech", "punk"]
         assert player2 == ["red"]
+        assert player3 == []
 
     def test_five(self, db, mongodb):
         # Sets up our mongodb mock
@@ -61,6 +64,32 @@ class Testdb:
         test1 = db.store_user_interests(test1_uuid, test1_ints)
         test2 = db.store_user_interests(test2_uuid, test2_ints)
 
+        assert test1 == True
+        assert test2 == True
+        find1 = {"uuid": test1_uuid}
+        assert mongodb.users.find_one(find1)
+        interests = mongodb.users.find_one(find1)["interests"]
+        assert interests == test1_ints
+
+        find2 = {"uuid": test2_uuid}
+        assert mongodb.users.find_one(find2)
+        interests = mongodb.users.find_one(find2)["interests"]
+        assert interests == test2_ints
+
+    def test_six(self, db, mongodb):
+        # Sets up our mongodb mock
+        db.db = mongodb
+
+        # Sets up the test parameters
+        test1_ints = ["red", "blue"]
+        test1_uuid = 124434
+        test2_ints = [1234, "purple"]
+        test2_uuid = 12345
+
+        test1 = db.update_user_interests(test1_uuid, test1_ints)
+        test2 = db.update_user_interests(test2_uuid, test2_ints)
+
+        # Test it
         assert test1 == True
         assert test2 == True
         find1 = {"uuid": test1_uuid}
