@@ -305,7 +305,8 @@ class Interests(commands.Cog):
         Command to add user interests
         """
         uuid = ctx.message.author.id
-        interests = []
+
+        interests = zz8_db.get_user_interests(uuid)
 
         for var in topic:
             interests.append(var.lower())
