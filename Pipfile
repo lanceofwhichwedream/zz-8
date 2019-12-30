@@ -6,16 +6,17 @@ verify_ssl = true
 [dev-packages]
 ipython = "*"
 flake8 = "*"
-pylint = "*"
 black = "*"
 ansible = "*"
+pytest = "*"
+pytest-mongodb = "*"
+pylint = "*"
 
 [packages]
 praw = "*"
 python-twitch-client = "*"
 sqlalchemy = "*"
 pymongo = "*"
-pylint = "*"
 youtube-dl = "*"
 asyncio = "*"
 discord-py = {extras = ["voice"],version = "*"}
