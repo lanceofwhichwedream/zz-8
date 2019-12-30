@@ -77,9 +77,14 @@ class zz8_db(object):
         # Queries for that user
         # then pulls only interests
         # out of the resulting dict
-        interests = self.db.users.find_one(query)["interests"]
-        self.logger.info("Returning interests list")
+        try:
+            interests = self.db.users.find_one(query)["interests"]
+            self.logger.info(f"Retrieved interests for {user_id}")
+        except:
+            interests = []
+            self.logger.warning(f"No interests stored for {user_id}")
 
+        self.logger.info("Returning interests list")
         return interests
 
     def store_user_interests(self, user_id, interests):
