@@ -281,7 +281,6 @@ class Interests(commands.Cog):
 
         #        def int_check(m):
         #            return m.author == author and m.channel == channel
-
         for var in response:
             interests.append(var.lower())
 

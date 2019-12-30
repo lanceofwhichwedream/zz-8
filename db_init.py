@@ -37,12 +37,15 @@ class zz8_db(object):
         Returns True
         """
         connect_string = (
-            f"mongodb://{self.user}:{self.password}"
-            f"@{self.host}:{self.port}/zz8",
+            f"mongodb://{self.user}:{self.password}@{self.host}:{self.port}/zz8",
         )
-        self.client = MongoClient(connect_string)
-        self.logger.info("Connected to mongo")
-        return True
+        try:
+            self.client = MongoClient(connect_string)
+            self.logger.info("Connected to mongo")
+            return True
+        except Exception as ex:
+            self.logger.error(f"An execption occured\n{ex}")
+            return True
 
     def db_init(self):
         """
