@@ -300,20 +300,22 @@ class Interests(commands.Cog):
         await ctx.send(f"I have updated your interests for you")
 
     @commands.command()
-    async def add_interests(self, ctx, *topic):
+    async def add_interests(self, ctx, *new_interests):
         """
         Command to add user interests
         """
         uuid = ctx.message.author.id
+        old_interests = zz8_db.get_user_interests(uuid)
+        interests = old_interests + list(new_interests)
 
-        interests = zz8_db.get_user_interests(uuid)
+        if not old_interests:
+            zz8_db.store_user_interests(uuid, interests)
+            logger.info(f"Stored interests for user {uuid}")
+        else:
+            zz8_db.update_user_interests(uuid, interests)
+            logger.info(f"Stored additional interests for user {uuid}")
 
-        for var in topic:
-            interests.append(var.lower())
-
-        zz8_db.store_user_interests(uuid, interests)
-        logger.info(f"Stored interests for user {uuid}")
-        await ctx.send(f"Thank you for letting me know you like {topic}")
+        await ctx.send(f"Thank you for letting me know you like {list(new_interests)}")
 
     @commands.command()
     async def quick_reddit_view(self, ctx):
