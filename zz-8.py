@@ -365,11 +365,6 @@ class Interests(commands.Cog):
 
 
 @bot.event
-async def on_ready():
-    """
-    Gives us some status output for zz-8
-    """
-    print(f"Logged on as {bot.user.name}, beep beep")
 
 
 @bot.event
@@ -378,6 +373,12 @@ async def on_message(message):
     This is the real action for zz-8
     """
     # No self replies for the bot
+
+    print(message.channel)
+    channel = message.channel
+    guild = message.guild
+    if channels[guild][channel]:
+        return
 
     if message.author == bot.user:
         return
@@ -388,18 +389,14 @@ async def on_message(message):
     if TEST_RE.search(message.content):
         await message.channel.send(YEET_URL)
 
-    if message.content == "Tech News":
-        for sub in reddit_posts("technology", 5):
-            await message.channel.send(sub.title)
-            await message.channel.send(sub.url)
-
     await bot.process_commands(message)
 
 
 @bot.event
 async def on_message_delete(message):
     uuid = message.author.id
-    await message.channel.send(f"I saw that, <@{uuid}>")
+    if message.author != bot.user:
+        await message.channel.send(f"I saw that, <@{uuid}>")
 
 
 @bot.event
@@ -409,7 +406,8 @@ async def on_message_edit(old_msg, new_msg):
      edit event
     """
     emoji = get(bot.emojis, name="rah")
-    await new_msg.add_reaction(emoji)
+    if new_msg.author != bot.user:
+        await new_msg.add_reaction(emoji)
 
 
 def reddit_posts(subreddit, num_posts):
@@ -425,8 +423,27 @@ def reddit_posts(subreddit, num_posts):
 
     return posts
 
+class zz8(discord.Client):
+    """
+    zz8 Base class for zz8
+
+    :param discord: This is the actual "login" of zz8
+    :type discord: module
+    """
+    channels = {}
+
+    async def on_ready(self):
+        """
+        on_ready Sets up important variables for zz8
+        """
+
+        zz8.channels = zz8_db.load_channels
+        print(f"Logged on as {bot.user.name}, beep beep")
+
+
 
 bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot))
 bot.add_cog(Reminders(bot))
 bot.run(config["client_token"])
+
