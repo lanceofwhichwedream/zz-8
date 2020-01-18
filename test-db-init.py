@@ -101,3 +101,20 @@ class Testdb:
         assert mongodb.users.find_one(find2)
         interests = mongodb.users.find_one(find2)["interests"]
         assert interests == test2_ints
+
+    def test_seven(self, db, mongodb):
+        # Sets up our mongodb mock
+        db.db = mongodb
+
+        # Sets up the test parameters
+        test1_prefs = {"ignored_channels": [1234123, 3463, 863945]}
+        test1_guild = 12341234
+        test2_prefs = {"ignored_channels": [1234123, 3463, 86394]}
+        test2_guild = 632435
+
+        test1 = db.store_guild_perfs(test1_guild, test1_prefs)
+        test2 = db.store_guild_perfs(test2_guild, test2_prefs)
+
+        assert test1 == True
+        # assert test2 == True
+
