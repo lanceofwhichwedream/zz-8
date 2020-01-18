@@ -20,7 +20,6 @@ pymongo = "*"
 youtube-dl = "*"
 asyncio = "*"
 discord-py = {extras = ["voice"],version = "*"}
-astropy = "*"
 ptable = "*"
 
 [requires]
