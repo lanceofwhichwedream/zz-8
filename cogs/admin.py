@@ -5,12 +5,11 @@ from prettytable import PrettyTable
 
 
 class Admin(commands.Cog):
-    def __init__(self, bot, zz8_db, logger):
+    def __init__(self, bot, zz8_db, zz8, logger):
         self.bot = bot
         self.zz8_db = zz8_db
         self.logger = logger
-
-    #        self.guild_prefs = zz8_db.guilds
+        self.zz8 = zz8
 
     @commands.command()
     async def configure_muting(self, ctx):
@@ -47,8 +46,10 @@ class Admin(commands.Cog):
         prefs = self.zz8_db.get_guild_prefs(guild)
         if not prefs:
             self.zz8_db.store_guild_prefs(guild, ignored_channels)
-            self.bot.guilds[guild] = ignored_channels
+            self.zz8.guilds[guild] = ignored_channels
             self.logger.info(f"Stored preferences for guild {guild}")
         else:
-            self.bot.guilds[guild].append(ignored_channels)
-            self.zz8_db.update_guild_prefs(guild, self.bot.guilds[guild][ignored_channels])
+            self.zz8.guilds[guild].append(ignored_channels)
+            self.zz8_db.update_guild_prefs(
+                guild, self.zz8.guilds[guild][ignored_channels]
+            )
