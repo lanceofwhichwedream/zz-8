@@ -130,3 +130,75 @@ class zz8_db(object):
         self.db.users.update_one(query, newvalues)
 
         return True
+
+    def get_channel_prefs(self):
+        """
+        Return every guild and the channel prefs
+        for those guilds
+
+        :return: Top level element is the guild uuid
+        second level element is a list of the uuids
+        of each channel
+        :rtype: dict
+        """
+        guild_channels = {}
+        try:
+            prefs = self.db.guilds.find()
+            self.logger.info("Retrieved the preferences for all guilds")
+            for guild in prefs:
+                guild_channels[guild] = guild["ignored_channels"]
+        except:
+            prefs = {}
+            self.logger.warning("No guild interests stored currently")
+
+        self.logger.info("Returning Preferences")
+        return guild_channels
+
+    def get_guild_prefs(self, guild):
+        query = {"guild": guild}
+
+        try:
+            guild = self.db.guilds.find_one(query)["ignored_channels"]
+            self.logger.info(f"Retrieved preferences for {guild}")
+        except:
+            guild = []
+            self.logger.warning(f"No interests stored for {guild}")
+
+        self.logger.inf("Returning guild list")
+        return guild
+
+    def store_guild_channel_prefs(self, guild, ignored_channels):
+        """
+        Stores the guild preferences
+
+        :param guild: The uuid of a guild
+        :type guild: int
+        :param ignored_channels: The preferences for a guild
+        :type ingored_channels: list
+        """
+
+        self.db.guilds
+        db_dict = {"guild": guild, "ignored_channels": ignored_channels}
+        self.db.guilds.insert_one(db_dict).inserted_id
+
+        return True
+
+    def update_guild_prefs(self, guild, pref_type, prefs):
+        """
+        Updates a guilds preferences
+
+        :param guild: UUID of a guild
+        :type guild: int
+        :param prefs: The preferences for a guild
+        :type prefs: dict
+        :return: Returns true
+        :rtype: Boolean
+        """
+        self.db.guilds
+
+        query = {"guild": guild}
+        newvalues = {"$set": {"guild": guild, pref_type: prefs}}
+
+        self.db.guilds.update_one(query, newvalues)
+
+        return True
