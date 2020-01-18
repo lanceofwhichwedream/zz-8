@@ -5,41 +5,6 @@ import sys
 import discord
 import praw
 from discord.ext import commands
-from db_init import zz8_db
-
-
-def getconfigpath():
-    """
-    Returns the path for the config
-    """
-
-    path = os.path.join(sys.path[0], "config", "zz-8.cfg")
-
-    return path
-
-
-def readconfig():
-    """
-    reads the config for zz-8
-    """
-
-    configpath = getconfigpath()
-
-    config = configparser.RawConfigParser()
-    config.read(configpath)
-
-    if not config.sections():
-        return False
-
-    appconfig = {}
-    appconfig["client_token"] = config.get("prod", "client_token")
-    appconfig["reddit_cid"] = config.get("prod", "reddit_client_id")
-    appconfig["reddit_csec"] = config.get("prod", "reddit_client_secret")
-    appconfig["db_user"] = config.get("prod", "db_user")
-    appconfig["db_pass"] = config.get("prod", "db_pass")
-    appconfig["db_host"] = config.get("prod", "db_host")
-    appconfig["db_port"] = config.get("prod", "db_port")
-    return appconfig
 
 
 class Interests(commands.Cog):

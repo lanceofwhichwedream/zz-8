@@ -86,8 +86,12 @@ TEST_RE = re.compile(r"(?i)ye{2,}t")
 YEET_URL = "https://www.youtube.com/watch?v=2Bjy5YQ5xPc"
 DESCRIPTION = "ZZ-8 the lovable youngest bot"
 
+zz8_db = zz8_db(config)
+zz8_db.connection()
+zz8_db.db_init()
+
 bot = commands.Bot(command_prefix="!", description=DESCRIPTION)
-# bot.guilds = zz8_db.guilds()
+bot.guilds = zz8_db.get_channel_prefs()
 
 
 @bot.event
@@ -106,6 +110,9 @@ async def on_message_edit(old_msg, new_msg):
     Performs a list of actions on reciving message
     edit event
     """
+    if new_msg.channel.id in bot.guilds[new_msg.guild.id]["ignored_channels"]:
+        return
+
     emoji = get(bot.emojis, name="rah")
     if new_msg.author != bot.user:
         await new_msg.add_reaction(emoji)
@@ -113,6 +120,9 @@ async def on_message_edit(old_msg, new_msg):
 
 @bot.event
 async def on_message_delete(message):
+    if message.channel.id in bot.guilds[message.guild.id]["ignored_channels"]:
+        return
+
     uuid = message.author.id
     if message.author != bot.user:
         await message.channel.send(f"I saw that, <@{uuid}>")
@@ -125,11 +135,12 @@ async def on_message(message):
     """
     # No self replies for the bot
 
-    print(message.channel)
     #    channel = message.channel
     #    guild = message.guild
     #    if channels[guild][channel]:
     #        return
+    if message.channel.id in bot.guilds[message.guild.id]["ignored_channels"]:
+        return
 
     if message.author == bot.user:
         return
