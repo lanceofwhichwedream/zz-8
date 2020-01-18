@@ -91,7 +91,13 @@ zz8_db.connection()
 zz8_db.db_init()
 
 bot = commands.Bot(command_prefix="!", description=DESCRIPTION)
-bot.guilds = zz8_db.get_channel_prefs()
+
+
+class bot_shit(object):
+    guilds = zz8_db.get_channel_prefs()
+
+
+zz8 = bot_shit()
 
 
 @bot.event
@@ -110,7 +116,10 @@ async def on_message_edit(old_msg, new_msg):
     Performs a list of actions on reciving message
     edit event
     """
-    if new_msg.channel.id in bot.guilds[new_msg.guild.id]["ignored_channels"]:
+    if (
+        zz8.guilds
+        and new_msg.channel.id in zz8.guilds[new_msg.guild.id]["ignored_channels"]
+    ):
         return
 
     emoji = get(bot.emojis, name="rah")
@@ -120,7 +129,10 @@ async def on_message_edit(old_msg, new_msg):
 
 @bot.event
 async def on_message_delete(message):
-    if message.channel.id in bot.guilds[message.guild.id]["ignored_channels"]:
+    if (
+        zz8.guilds
+        and message.channel.id in zz8.guilds[message.guild.id]["ignored_channels"]
+    ):
         return
 
     uuid = message.author.id
@@ -139,7 +151,10 @@ async def on_message(message):
     #    guild = message.guild
     #    if channels[guild][channel]:
     #        return
-    if message.channel.id in bot.guilds[message.guild.id]["ignored_channels"]:
+    if (
+        zz8.guilds
+        and message.channel.id in zz8.guilds[message.guild.id]["ignored_channels"]
+    ):
         return
 
     if message.author == bot.user:
@@ -157,6 +172,6 @@ async def on_message(message):
 bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot, zz8_db, reddit, logger))
 bot.add_cog(Reminders(bot))
-bot.add_cog(Admin(bot, zz8_db, logger))
+bot.add_cog(Admin(bot, zz8_db, zz8, logger))
 bot.run(config["client_token"])
 
