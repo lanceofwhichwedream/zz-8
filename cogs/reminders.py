@@ -6,7 +6,7 @@ from prettytable import PrettyTable
 
 
 class Reminders(commands.Cog):
-    def __init__(self, bot, zz8_db):
+    def __init__(self, bot, zz8_db, logger):
         """
         Reminders [summary]
 
@@ -17,21 +17,8 @@ class Reminders(commands.Cog):
         """
         self.bot = bot
         self.zz8_db = zz8_db
-
-    @commands.command()
-    async def remind_me(self, ctx, num):
-        """
-        remind_me [summary]
-
-        :param ctx: context in which the command was invokved
-        :type ctx: obj
-        :param num: variable provided by user
-        :type num: int
-        """
-        uuid = ctx.message.author.id
-        await ctx.send(f"I have recieved {num}")
-        await asyncio.sleep(int(num))
-        await ctx.send(f"this is a test <@{uuid}>")
+        self.logger = logger
+        self.remind_people.start()
 
     @commands.command()
     async def view_reminders(self, ctx):
@@ -47,6 +34,8 @@ class Reminders(commands.Cog):
         # Sets up our early variables
         table = PrettyTable()
         column_names = ["Time", "Reminder"]
+        reminder = []
+        time = []
         uuid = ctx.message.author.id
         user = ctx.message.author
 
@@ -54,20 +43,21 @@ class Reminders(commands.Cog):
         reminders = self.zz8_db.search_reminders_by_uuid(uuid)
 
         # Some nice loop comprehension
-        if not reminders:
-            table = "You have not given me anything to remind you about"
-            await user.send(f"{table}")
-        else:
-            time = [
-                datetime.strptime(i["time"], "%m-%d-%Y-%H-%M").strftime(
-                    "%m/%d/%Y, %H:%M"
+        if reminders.collection.count_documents({}) >= 1:
+            for post in reminders:
+                reminder.append(post["msg"])
+                time.append(
+                    datetime.strptime(post["time"], "%m-%d-%Y-%H-%M").strftime(
+                        "%m/%d/%Y, %H:%M"
+                    )
                 )
-                for i in reminders
-            ]
-            reminder = [i["reminder"] for i in reminders]
+
             table.add_column(column_names[0], time)
             table.add_column(column_names[1], reminder)
             await user.send(f"```{table}```")
+        else:
+            table = "You have not given me anything to remind you about"
+            await user.send(f"{table}")
 
     @commands.command()
     async def add_reminder(self, ctx):
@@ -91,14 +81,18 @@ class Reminders(commands.Cog):
         msg = await self.bot.wait_for("message", check=check, timeout=60)
 
         await ctx.send("When would you like to be reminded?")
+        await ctx.send(
+            'Please use a normally accepted time format such as a date and time or something like "in 5 minutes"'
+        )
         time = await self.bot.wait_for("message", check=check, timeout=60)
 
-        when = dateparser.parse(time).strftime("%m-%d-%Y-%H-%M")
+        when = dateparser.parse(str(time.content))
+        when_formatted = when.strftime("%m-%d-%Y-%H-%M")
 
-        self.zz8_db.store_reminder(uuid, user, msg, when)
-        human_date = dateparser.parse(time).strftime("%m/%d/%Y")
-        human_time = dateparser.parse(time).strftime("%H:%M")
-        await ctx.send(f"I will remind you of this on {human_date} at {human_time}")
+        self.zz8_db.store_reminder(uuid, msg.content, when_formatted)
+        human_date = when.strftime("%m/%d/%Y")
+        human_time = when.strftime("%H:%M")
+        await ctx.send(f"I will remind you of this on {human_date} at {human_time} UTC")
 
     @tasks.loop(minutes=1.0)
     async def remind_people(self):
@@ -108,10 +102,18 @@ class Reminders(commands.Cog):
         Background task to send reminders
         to people, runs every minute
         """
-        now = datetime.now.strftime("%m-$d-%Y-%H-%M")
+        await self.bot.wait_until_ready()
+        now = datetime.now().strftime("%m-%d-%Y-%H-%M")
+        self.logger.info(f"Checking reminders for {now}")
+
         reminders = self.zz8_db.search_reminders_by_time(now)
-        if reminders:
+        if reminders.collection.count_documents({}) >= 1:
+            self.logger.info("Found some reminders, sending them out")
             for i in reminders:
-                await i["user"].send(f"You asked to be reminded about this")
-                await i["user"].send(f"{i['reminder']}")
+                user = self.bot.get_user(i["uuid"])
+                await user.send(f"You asked to be reminded about this")
+                await user.send(f"{i['msg']}")
+                self.zz8_db.delete_reminder(i["_id"])
+        else:
+            self.logger.info("No reminders to send out at this time")
 
