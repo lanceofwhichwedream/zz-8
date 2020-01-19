@@ -13,7 +13,7 @@ import re
 import sys
 import discord
 import praw
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.utils import get
 from db_init import zz8_db
 from cogs.interests import Interests
@@ -171,7 +171,7 @@ async def on_message(message):
 
 bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot, zz8_db, reddit, logger))
-bot.add_cog(Reminders(bot))
+bot.add_cog(Reminders(bot, zz8_db))
 bot.add_cog(Admin(bot, zz8_db, zz8, logger))
 bot.run(config["client_token"])
 
