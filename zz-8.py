@@ -13,6 +13,7 @@ import re
 import sys
 import discord
 import praw
+from datetime import datetime
 from discord.ext import commands, tasks
 from discord.utils import get
 from db_init import zz8_db
@@ -43,7 +44,6 @@ def getconfigpath():
     """
 
     path = os.path.join(sys.path[0], "config", "zz-8.cfg")
-
     return path
 
 
@@ -53,13 +53,10 @@ def readconfig():
     """
 
     configpath = getconfigpath()
-
     config = configparser.RawConfigParser()
     config.read(configpath)
-
     if not config.sections():
         return False
-
     appconfig = {}
     appconfig["client_token"] = config.get("prod", "client_token")
     appconfig["reddit_cid"] = config.get("prod", "reddit_client_id")
@@ -171,7 +168,7 @@ async def on_message(message):
 
 bot.add_cog(Music(bot))
 bot.add_cog(Interests(bot, zz8_db, reddit, logger))
-bot.add_cog(Reminders(bot, zz8_db))
+bot.add_cog(Reminders(bot, zz8_db, logger))
 bot.add_cog(Admin(bot, zz8_db, zz8, logger))
 bot.run(config["client_token"])
 
