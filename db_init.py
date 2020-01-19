@@ -258,7 +258,7 @@ class zz8_db(object):
         self.logger.info("Returning reminder list")
         return reminders
 
-    def store_reminder(self, uuid, user, msg, time):
+    def store_reminder(self, uuid, msg, time):
         """
         store_reminder
 
@@ -277,7 +277,7 @@ class zz8_db(object):
         """
         self.db.reminders
 
-        db_dict = {"uuid": uuid, "user": user, "msg": msg, "time": time}
+        db_dict = {"uuid": uuid, "msg": msg, "time": time}
         self.db.reminders.insert_one(db_dict).inserted_id
 
         return True
