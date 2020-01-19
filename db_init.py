@@ -164,7 +164,7 @@ class zz8_db(object):
             guild = []
             self.logger.warning(f"No interests stored for {guild}")
 
-        self.logger.inf("Returning guild list")
+        self.logger.info("Returning guild list")
         return guild
 
     def store_guild_channel_prefs(self, guild, ignored_channels):
@@ -200,5 +200,84 @@ class zz8_db(object):
         newvalues = {"$set": {"guild": guild, pref_type: prefs}}
 
         self.db.guilds.update_one(query, newvalues)
+
+        return True
+
+    def search_reminders_by_time(self, time):
+        """
+        search_reminders_by_time
+
+        Searches mongodb for a list of reminders
+        scheduled for a specific time
+
+        :param time: String formatted datetime obj
+        "%m-%d-%Y-%H-%M"
+        :type time: Str
+        :return: Array of reminders and the uuid
+        for them
+        :rtype: List
+        """
+        self.db.reminders
+
+        query = {"time": time}
+
+        try:
+            reminders = self.db.reminders.find(query)
+            self.logger.info(f"Retrieved reminders for current time: {time}")
+        except:
+            reminders = []
+            self.logger.info(f"No reminders ser for current time: {time}")
+
+        self.logger.info("Returning reminder list")
+        return reminders
+
+    def search_reminders_by_uuid(self, uuid):
+        """
+        search_reminders_by_uuid
+
+        Searched mongodb for a list reminders
+        scheduled by a specific uuid
+
+        :param uuid: Unique identifier for a discord
+        user
+        :type uuid: Int
+        :return: Array of reminders from that user
+        :rtype: List
+        """
+        self.db.reminders
+
+        query = {"uuid": uuid}
+
+        try:
+            reminders = self.db.reminders.find(query)
+            self.logger.info(f"Retrieved reminders for uuid: {uuid}")
+        except:
+            reminders = []
+            self.logger.warning(f"No reminders for uuid: {uuid}")
+
+        self.logger.info("Returning reminder list")
+        return reminders
+
+    def store_reminder(self, uuid, user, msg, time):
+        """
+        store_reminder
+
+        Stores reminders for users
+
+        :param uuid: Unique identifier for the user
+        :type uuid: Int
+        :param user: User object for the user
+        :type user: User
+        :param msg: The message to remind a user of
+        :type msg: Str
+        :param time: When to remind the user
+        :type time: Str
+        :return: That the operation was successful
+        :rtype: Bool
+        """
+        self.db.reminders
+
+        db_dict = {"uuid": uuid, "user": user, "msg": msg, "time": time}
+        self.db.reminders.insert_one(db_dict).inserted_id
 
         return True
