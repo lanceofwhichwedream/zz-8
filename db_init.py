@@ -1,5 +1,5 @@
 import logging
-
+from bson.objectid import ObjectId
 from pymongo import MongoClient
 
 
@@ -296,7 +296,7 @@ class zz8_db(object):
 
         self.db.reminders
 
-        query = {"_id": id}
+        query = {"_id": ObjectId(id)}
 
         self.db.reminders.delete_one(query)
 
