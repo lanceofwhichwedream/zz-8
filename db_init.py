@@ -281,3 +281,23 @@ class zz8_db(object):
         self.db.reminders.insert_one(db_dict).inserted_id
 
         return True
+
+    def delete_reminder(self, id):
+        """
+        delete_reminder
+
+        Deletes reminders
+
+        :param id: UUID for a document in mongodb
+        :type id: Int
+        :return: return true or false for the operation
+        :rtype: Bool
+        """
+
+        self.db.reminders
+
+        query = {"_id": id}
+
+        self.db.reminders.delete_one(query)
+
+        return True
