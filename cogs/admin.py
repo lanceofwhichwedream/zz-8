@@ -1,15 +1,39 @@
 import asyncio
 import discord
+import re
 from discord.ext import commands
+from discord.utils import get
 from prettytable import PrettyTable
+
+TEST_RE = re.compile(r"(?i)ye{2,}t")
+YEET_URL = "https://www.youtube.com/watch?v=2Bjy5YQ5xPc"
 
 
 class Admin(commands.Cog):
-    def __init__(self, bot, zz8_db, zz8, logger):
+    guilds = []
+
+    def __init__(self, bot, zz8_db, logger):
         self.bot = bot
         self.zz8_db = zz8_db
         self.logger = logger
-        self.zz8 = zz8
+
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """
+        on_ready When the bot starts up, executes these functions
+        """
+        Admin.guilds = self.zz8_db.get_channel_prefs()
+
+    @commands.command()
+    async def list_muted(self, ctx):
+        """
+        list_muted Lists the muted channels
+
+        :param ctx: Context surrounding the invoked command
+        :type ctx: Object
+        """
+
+        await ctx.send(Admin.guilds)
 
     @commands.command()
     async def configure_muting(self, ctx):
@@ -36,20 +60,15 @@ class Admin(commands.Cog):
         table.add_column(column_names[0], numbers)
         table.add_column(column_names[1], channel_names)
         await ctx.send("What channels should I not interact with?")
-        asyncio.sleep(2)
+        await asyncio.sleep(2)
         await ctx.send(f"```{table}```")
         await ctx.send("Please reply with a space separated list of numbers")
         res = await self.bot.wait_for("message", check=check, timeout=180)
         ignores = res.content.split(" ")
+
         for i in ignores:
+            Admin.guilds.append(channels[int(i) - 1].id)
             ignored_channels.append(channels[int(i) - 1].id)
-        prefs = self.zz8_db.get_guild_prefs(guild)
-        if not prefs:
-            self.zz8_db.store_guild_prefs(guild, ignored_channels)
-            self.zz8.guilds[guild] = ignored_channels
-            self.logger.info(f"Stored preferences for guild {guild}")
-        else:
-            self.zz8.guilds[guild].append(ignored_channels)
-            self.zz8_db.update_guild_prefs(
-                guild, self.zz8.guilds[guild][ignored_channels]
-            )
+
+        self.zz8_db.store_guild_channel_prefs(guild, ignored_channels)
+        self.logger.info(f"Stored preferences for guild {guild}")
