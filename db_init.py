@@ -141,14 +141,14 @@ class zz8_db(object):
         of each channel
         :rtype: dict
         """
-        guild_channels = {}
+        guild_channels = []
         try:
             prefs = self.db.guilds.find()
             self.logger.info("Retrieved the preferences for all guilds")
             for guild in prefs:
-                guild_channels[guild] = guild["ignored_channels"]
+                guild_channels.extend(guild["ignored_channels"])
         except:
-            prefs = {}
+            prefs = []
             self.logger.warning("No guild interests stored currently")
 
         self.logger.info("Returning Preferences")
