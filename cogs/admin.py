@@ -33,7 +33,9 @@ class Admin(commands.Cog):
         :type ctx: Object
         """
 
-        await ctx.send(Admin.guilds)
+        channels = [self.bot.get_channel(i).name for i in Admin.guilds]
+        print(channels)
+        await ctx.send(channels)
 
     @commands.command()
     async def configure_muting(self, ctx):
