@@ -56,9 +56,11 @@ class Events(commands.Cog):
         :type new_msg: Ctx
         """
         emoji = get(self.bot.emojis, name="rah")
-
+        print(new_msg)
+        print(new_msg.embeds)
         if new_msg.channel.id in self.guilds:
             return
 
-        if new_msg.author != self.bot.user:
+        if new_msg.author != self.bot.user and not new_msg.embeds:
             await new_msg.add_reaction(emoji)
+
