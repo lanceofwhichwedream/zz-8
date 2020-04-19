@@ -8,6 +8,9 @@ services:
         command: python zz-8.py
         restart: always
         tty: true
+        dns:
+          - 10.101.3.200
+          - 10.101.3.201
         networks:
             zz-8-network:
                 ipv4_address: ${IPV4_NETWORK:-172.23.1}.254
