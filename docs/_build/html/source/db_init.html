@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>db_init module &#8212; ZZ-8 1.2 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-db_init">
+<span id="db-init-module"></span><h1>db_init module<a class="headerlink" href="#module-db_init" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="db_init.zz8_db">
+<em class="property">class </em><code class="sig-prename descclassname">db_init.</code><code class="sig-name descname">zz8_db</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class connects to the mongo database.
+If the database doesn’t exist, pymongo
+will create it.</p>
+<dl class="py method">
+<dt id="db_init.zz8_db.connection">
+<code class="sig-name descname">connection</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.connection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the mongo client</p>
+<p>Returns: True</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.dbinit">
+<code class="sig-name descname">dbinit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.dbinit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up the database and creates
+it, if it doesn’t already exist</p>
+<p>Returns: True</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.delete_reminder">
+<code class="sig-name descname">delete_reminder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.delete_reminder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes reminders</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>id</strong> (<em>Int</em>) – UUID for a document in mongodb</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>return true or false for the operation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.get_channel_prefs">
+<code class="sig-name descname">get_channel_prefs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.get_channel_prefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return every guild and the channel prefs
+for those guilds</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Top level element is the guild uuid</p>
+</dd>
+</dl>
+<p>second level element is a list of the uuids
+of each channel
+:rtype: dict</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.get_guild_prefs">
+<code class="sig-name descname">get_guild_prefs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guild</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.get_guild_prefs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.get_user_interests">
+<code class="sig-name descname">get_user_interests</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.get_user_interests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queries mongo for the specified user</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>user (int)</p>
+</dd>
+<dt>Output:</dt><dd><p>interests (list [])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.search_reminders_by_time">
+<code class="sig-name descname">search_reminders_by_time</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.search_reminders_by_time" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Searches mongodb for a list of reminders</dt><dd><p>scheduled for a specific time</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>Str</em>) – String formatted datetime obj
+“%m-%d-%Y-%H-%M”</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Array of reminders and the uuid
+for them</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.search_reminders_by_uuid">
+<code class="sig-name descname">search_reminders_by_uuid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.search_reminders_by_uuid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searched mongodb for a list reminders
+scheduled by a specific uuid</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>uuid</strong> – Unique identifier for a discord</p>
+</dd>
+</dl>
+<p>user</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Array of reminders from that user</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.store_guild_channel_prefs">
+<code class="sig-name descname">store_guild_channel_prefs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guild</span></em>, <em class="sig-param"><span class="n">ignored_channels</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.store_guild_channel_prefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores the guild preferences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>guild</strong> (<em>int</em>) – The uuid of a guild</p></li>
+<li><p><strong>ignored_channels</strong> – The preferences for a guild</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.store_reminder">
+<code class="sig-name descname">store_reminder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid</span></em>, <em class="sig-param"><span class="n">msg</span></em>, <em class="sig-param"><span class="n">time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.store_reminder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores reminders for users</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uuid</strong> (<em>Int</em>) – Unique identifier for the user</p></li>
+<li><p><strong>user</strong> (<em>User</em>) – User object for the user</p></li>
+<li><p><strong>msg</strong> (<em>Str</em>) – The message to remind a user of</p></li>
+<li><p><strong>time</strong> (<em>Str</em>) – When to remind the user</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>That the operation was successful</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.store_user_interests">
+<code class="sig-name descname">store_user_interests</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span></em>, <em class="sig-param"><span class="n">interests</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.store_user_interests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stores a dictionary of the uuid and interests</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>user_id (int)
+interests (list [])</p>
+</dd>
+<dt>Output:</dt><dd><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.update_guild_prefs">
+<code class="sig-name descname">update_guild_prefs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">guild</span></em>, <em class="sig-param"><span class="n">pref_type</span></em>, <em class="sig-param"><span class="n">prefs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.update_guild_prefs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates a guilds preferences</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>guild</strong> (<em>int</em>) – UUID of a guild</p></li>
+<li><p><strong>prefs</strong> (<em>dict</em>) – The preferences for a guild</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns true</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="db_init.zz8_db.update_user_interests">
+<code class="sig-name descname">update_user_interests</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_id</span></em>, <em class="sig-param"><span class="n">interests</span></em><span class="sig-paren">)</span><a class="headerlink" href="#db_init.zz8_db.update_user_interests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates a dictionary of the uuid and interests</p>
+<dl class="simple">
+<dt>Attributes:</dt><dd><p>user_id (int)
+interests (list [])</p>
+</dd>
+<dt>Output:</dt><dd><p>True</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">ZZ-8</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Lance Zeligman.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/source/db_init.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

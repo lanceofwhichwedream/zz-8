@@ -30,7 +30,7 @@ class Testdb:
 
     def test_three(self, db):
         db.connection()
-        db.db_init()
+        db.dbinit()
         assert isinstance(db.db, pymongo.database.Database)
 
     def test_something(self, mongodb):
@@ -117,4 +117,3 @@ class Testdb:
 
         assert test1 == True
         # assert test2 == True
-

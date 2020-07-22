@@ -1,0 +1,1 @@
+ZZ-8 can be installed with pipenv

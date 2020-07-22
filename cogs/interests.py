@@ -51,7 +51,18 @@ class Interests(commands.Cog):
     @commands.command()
     async def update_interests(self, ctx):
         """
-        Command to add user interests
+        update_interests
+
+        Responsible for upserting a user's interests.
+
+        Takes in a series of strings from user and transofmrs it into an array.
+        It then takes that array and stores it into a mongodb colelction by way
+        of db_init class.
+
+        :param ctx: [description]
+        :type ctx: [type]
+        :return: [description]
+        :rtype: [type]
         """
         interests = []
         uuid = ctx.message.author.id
@@ -62,21 +73,36 @@ class Interests(commands.Cog):
         def check(m):
             return m.author == author and m.channel == channel
 
-        #        def int_check(m):
-        #            return m.author == author and m.channel == channel
-        for var in response:
-            interests.append(var.lower())
+        # Candidate for list comprehension
+        # Consider execution and when it would need to be executed or not
 
         self.logger.info(f"Listing current interests for user {uuid}")
-        await ctx.send(f"Which topic would you like to update {interests}?")
-        await ctx.send(f"Please state a number 1 through {len(interests)}")
 
-        msg = await self.bot.wait_for("message", check=check, timeout=60)
-        await ctx.send(f"What would you like to change it to?")
+        await ctx.send("Fetching current interests, please hold")
 
-        new_int = await self.bot.wait_for("message", check=check, timeout=60)
+        if response:
+            interests = [var.lower() for var in response]
 
-        interests[int(msg.content) - 1] = new_int.content
+            await ctx.send("Interests have been found.")
+            await asyncio.sleep(1)
+            await ctx.send(f"Which topic would you like to update {interests}?")
+            await ctx.send(f"Please state a number 1 through {len(interests)}")
+
+            msg = await self.bot.wait_for("message", check=check, timeout=60)
+            await ctx.send(f"What would you like to change it to?")
+
+            new_int = await self.bot.wait_for("message", check=check, timeout=60)
+
+            interests[int(msg.content) - 1] = new_int.content
+        else:
+            await ctx.send("I'm unable to find any interests stored for you")
+            await asyncio.sleep(1)
+            await ctx.send("Let's fix that")
+            await ctx.send("What are you interested in?")
+
+            new_int = await self.bot.wait_for("message", check=check, timeout=60)
+
+            interests = new_int.content
 
         self.zz8_db.update_user_interests(uuid, interests)
         self.logger.info(f"Updated interests for user {uuid}")
@@ -91,13 +117,11 @@ class Interests(commands.Cog):
         old_interests = self.zz8_db.get_user_interests(uuid)
         interests = old_interests + list(new_interests)
 
-        if not old_interests:
-            self.zz8_db.store_user_interests(uuid, interests)
-            self.logger.info(f"Stored interests for user {uuid}")
-        else:
-            self.zz8_db.update_user_interests(uuid, interests)
-            self.logger.info(f"Stored additional interests for user {uuid}")
+        # We upsert the record
+        self.zz8_db.update_user_interests(uuid, interests)
+        self.logger.info(f"Stored interests for user {uuid}")
 
+        # Nice to have some feedback
         await ctx.send(f"Thank you for letting me know you like {list(new_interests)}")
 
     @commands.command()

@@ -84,7 +84,7 @@ DESCRIPTION = "ZZ-8 the lovable youngest bot"
 
 zz8_db = zz8_db(config)
 zz8_db.connection()
-zz8_db.db_init()
+zz8_db.dbinit()
 
 bot = commands.Bot(command_prefix="!", description=DESCRIPTION)
 
@@ -94,4 +94,3 @@ bot.add_cog(Interests(bot, zz8_db, reddit, logger))
 bot.add_cog(Reminders(bot, zz8_db, logger))
 bot.add_cog(Events(bot, logger))
 bot.run(config["client_token"])
-

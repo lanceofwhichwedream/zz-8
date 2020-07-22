@@ -18,11 +18,16 @@ class zz8_db(object):
         below variables
 
         Parameters:
-            user (str): The username for proper db conns
-            pass (str): The password for proper db conns
-            host (str): The hostname for proper db conns
-            port (int): The port for proper db conns
-            db   (str): The port for proper db conns
+        :param user: The username for db conns
+        :type user: str
+        :param pass: The password for db conns
+        :type pass: str
+        :param host: The hostname for db conns
+        :type host: str
+        :param port: The port for db conns
+        :type port: str
+        :param db: The port for db conns
+        :type db: str
         """
         self.user = config["db_user"]
         self.password = config["db_pass"]
@@ -34,7 +39,7 @@ class zz8_db(object):
         """
         Creates the mongo client
 
-        Returns True
+        Returns: True
         """
         connect_string = (
             f"mongodb://{self.user}:{self.password}@{self.host}:{self.port}/zz8",
@@ -45,14 +50,14 @@ class zz8_db(object):
             return True
         except Exception as ex:
             self.logger.error(f"An execption occured\n{ex}")
-            return True
+            return False
 
-    def db_init(self):
+    def dbinit(self):
         """
         Sets up the database and creates
         it, if it doesn't already exist
 
-        Returns True
+        Returns: True
         """
         self.db = self.client.zz8
         self.logger.info("Connected to zz8 db")
@@ -127,7 +132,7 @@ class zz8_db(object):
         query = {"uuid": user_id}
         newvalues = {"$set": {"uuid": user_id, "interests": interests}}
 
-        self.db.users.update_one(query, newvalues)
+        self.db.users.update_one(query, newvalues, upsert=True)
 
         return True
 
@@ -208,14 +213,14 @@ class zz8_db(object):
         search_reminders_by_time
 
         Searches mongodb for a list of reminders
-        scheduled for a specific time
-
+          scheduled for a specific time
         :param time: String formatted datetime obj
-        "%m-%d-%Y-%H-%M"
+          "%m-%d-%Y-%H-%M"
         :type time: Str
         :return: Array of reminders and the uuid
-        for them
+          for them
         :rtype: List
+
         """
         self.db.reminders
 
@@ -240,6 +245,7 @@ class zz8_db(object):
 
         :param uuid: Unique identifier for a discord
         user
+
         :type uuid: Int
         :return: Array of reminders from that user
         :rtype: List
