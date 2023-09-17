@@ -7,6 +7,7 @@ Includes some intregation with reddit
 """
 import configparser
 import logging
+import logging.config
 import os
 import sys
 import praw
@@ -18,20 +19,9 @@ from cogs.music import Music
 from cogs.reminders import Reminders
 from cogs.events import Events
 
-logger = logging.getLogger("zz-8")
-logger.setLevel(logging.INFO)
-c_handler = logging.StreamHandler()
-f_handler = logging.FileHandler("zz-8.log")
-c_handler.setLevel(logging.INFO)
-f_handler.setLevel(logging.INFO)
+logging.config.fileConfig(fname="log.conf", disable_existing_loggers=False)
 
-formatter = logging.Formatter("%(asctime)s %(levelname)8s %(message)s")
-
-c_handler.setFormatter(formatter)
-f_handler.setFormatter(formatter)
-
-logger.addHandler(c_handler)
-logger.addHandler(f_handler)
+logger = logging.getLogger("zz8")
 
 
 def getconfigpath():
