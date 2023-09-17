@@ -19,9 +19,10 @@ from cogs.music import Music
 from cogs.reminders import Reminders
 from cogs.events import Events
 
-logging.config.fileConfig(fname='log.conf', disable_existing_loggers=False)
+logging.config.fileConfig(fname="log.conf", disable_existing_loggers=False)
 
 logger = logging.getLogger("zz8")
+
 
 def getconfigpath():
     """
