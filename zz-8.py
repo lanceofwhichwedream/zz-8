@@ -5,17 +5,12 @@ The main code for ZZ-8
 ZZ-8 is designed to perform some basic bot functions
 Includes some intregation with reddit
 """
-import asyncio
 import configparser
 import logging
 import os
-import re
 import sys
-import discord
 import praw
-from datetime import datetime
-from discord.ext import commands, tasks
-from discord.utils import get
+from discord.ext import commands
 from db_init import zz8_db
 from cogs.admin import Admin
 from cogs.interests import Interests
